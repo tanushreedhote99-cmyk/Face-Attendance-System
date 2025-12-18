@@ -1,0 +1,4 @@
+opencv-contrib-python
+numpy
+gspread
+oauth2client
