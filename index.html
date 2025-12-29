@@ -1,22 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<title>CodeLineAI - Face Attendance</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Face Attendance System</title>
+    <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-    <h1>CodeLineAI Class - Face Attendance</h1>
     <div class="container">
-        <div class="camera">
-            <img id="video" src="" alt="Camera Feed">
-            <div class="buttons">
-                <button onclick="startCamera()">Start Camera</button>
-                <button onclick="stopCamera()">Stop Camera</button>
+        <div class="camera-section">
+            <h2>Live Camera Feed</h2>
+            <div class="video-container">
+                <img src="{{ url_for('video_feed') }}" id="video-feed">
             </div>
+            <p id="message" class="attendance-msg"></p>
         </div>
-        <div class="attendance">
-            <h2>Last Attendance</h2>
+
+        <div class="attendance-section">
+            <h2>Attendance</h2>
             <table id="attendance-table">
                 <thead>
                     <tr>
@@ -25,10 +24,46 @@
                         <th>Time</th>
                     </tr>
                 </thead>
-                <tbody></tbody>
+                <tbody>
+                    <tr>
+                        <td colspan="3">Waiting for Attendance...</td>
+                    </tr>
+                </tbody>
             </table>
         </div>
     </div>
-<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+    <script>
+        function updateAttendance() {
+            fetch("/get_attendance")
+            .then(res => res.json())
+            .then(data => {
+                const tableBody = document.querySelector("#attendance-table tbody");
+                const message = document.getElementById("message");
+
+                tableBody.innerHTML = "";
+                if (data.length > 0) {
+                    data.forEach(entry => {
+                        tableBody.innerHTML += `
+                        <tr>
+                            <td>${entry.name}</td>
+                            <td>${entry.date}</td>
+                            <td>${entry.time}</td>
+                        </tr>`;
+                    });
+                    message.innerText = data[data.length-1].message; // last entry message
+                } else {
+                    tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="3">Waiting for Attendance...</td>
+                    </tr>`;
+                    message.innerText = "";
+                    setTimeout(updateAttendance, 200);
+                }
+            });
+        }
+
+        updateAttendance();
+    </script>
 </body>
 </html>
