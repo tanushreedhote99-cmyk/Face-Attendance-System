@@ -27,22 +27,27 @@ def detect_and_mark(frame):
 
         if confidence > CONFIDENCE_THRESHOLD:
             name = "Unknown"
+            # Only draw box + name, no attendance entry
+            cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 0, 255), 2)  # red box for unknown
+            cv2.putText(frame, name, (x, y-10),
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 0, 255), 2)
         else:
             name = label_map[label]
+            message = f"✅ Attendance Marked for {name}"
 
-        # Draw green box + name
-        cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
-        cv2.putText(frame, name, (x, y-10),
-                    cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 255, 0), 2)
+            # Draw green box + name
+            cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
+            cv2.putText(frame, name, (x, y-10),
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 255, 0), 2)
 
-        # Attendance mark once per student
-        if name != "Unknown" and name not in attendance_done:
-            attendance_done.add(name)
-            attendance_data.append({
-                "name": name,
-                "date": datetime.now().strftime("%d-%m-%Y"),
-                "time": datetime.now().strftime("%H:%M:%S"),
-                "message": f"✅ Attendance Marked for {name}"
-            })
+            # Attendance mark once per known student
+            if name not in attendance_done:
+                attendance_done.add(name)
+                attendance_data.append({
+                    "name": name,
+                    "date": datetime.now().strftime("%d-%m-%Y"),
+                    "time": datetime.now().strftime("%H:%M:%S"),
+                    "message": message
+                })
 
     return frame
