@@ -1,69 +1,65 @@
 body {
-    font-family: Arial, sans-serif;
-    background: linear-gradient(to right, #f0f8ff, #cce7ff);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f7f7f7;
     text-align: center;
-    padding: 20px;
-}
-
-h1 {
-    color: #007acc;
+    margin: 0;
+    padding: 0;
 }
 
 .container {
     display: flex;
     justify-content: space-around;
-    margin-top: 20px;
+    align-items: flex-start;
+    margin-top: 30px;
+    gap: 40px;
+    flex-wrap: wrap;
 }
 
-.camera, .attendance {
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0px 0px 15px rgba(0,0,0,0.2);
+.camera-section, .attendance-section {
+    background: #fff;
     padding: 20px;
-    width: 45%;
+    border-radius: 15px;
+    box-shadow: 0px 5px 15px rgba(0,0,0,0.2);
 }
 
-.camera img {
+.video-container {
+    width: 600px;
+    height: 450px;
+    overflow: hidden;
+    border-radius: 10px;
+    border: 2px solid #4CAF50;
+    margin-bottom: 15px;
+}
+
+#video-feed {
     width: 100%;
     height: auto;
-    border-radius: 10px;
-    border: 2px solid #007acc;
 }
 
-.buttons {
-    margin-top: 10px;
-}
-
-button {
-    padding: 10px 20px;
-    margin: 5px;
-    font-size: 16px;
-    border-radius: 5px;
-    border: none;
-    cursor: pointer;
-    background-color: #007acc;
-    color: white;
-}
-
-button:hover {
-    background-color: #005f99;
+.attendance-msg {
+    font-size: 18px;
+    font-weight: bold;
+    color: #4CAF50;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
+    margin-top: 10px;
 }
 
 th, td {
     padding: 10px;
-    border-bottom: 1px solid #ddd;
+    border: 1px solid #ddd;
 }
 
 th {
-    background-color: #007acc;
+    background-color: #4CAF50;
     color: white;
+    text-align: center;
 }
 
-tr:nth-child(even) {
-    background-color: #f2f2f2;
+td {
+    text-align: center;
+    font-size: 16px;
 }
