@@ -1,38 +1,32 @@
-let interval = null;
+const table = document.getElementById("table");
 
-function startCamera() {
-    fetch("/start_camera", { method: "POST" })
+function detectFace() {
+    fetch("/detect")
         .then(res => res.json())
         .then(data => {
-            if (data.status === "camera started") {
-                document.getElementById('video').src = "/video_feed";
-                if(interval) clearInterval(interval);
-                interval = setInterval(getLastAttendance, 1000);
-            } else {
-                alert(data.status);
+
+            table.innerHTML = `
+            <tr>
+                <th>Name</th>
+                <th>Date</th>
+                <th>Time</th>
+            </tr>
+            `;
+
+            if (data.attendance) {
+                table.innerHTML += `
+                <tr>
+                    <td>${data.attendance.name}</td>
+                    <td>${data.attendance.date}</td>
+                    <td>${data.attendance.time}</td>
+                </tr>
+                `;
+            }
+
+            if (!data.stop) {
+                setTimeout(detectFace, 500);
             }
         });
 }
 
-function stopCamera() {
-    fetch("/stop_camera", { method: "POST" })
-        .then(res => res.json())
-        .then(data => {
-            if(interval) clearInterval(interval);
-            document.getElementById('video').src = "";
-        });
-}
-
-function getLastAttendance() {
-    fetch("/get_last_attendance")
-        .then(res => res.json())
-        .then(data => {
-            const tbody = document.querySelector("#attendance-table tbody");
-            tbody.innerHTML = "";
-            if(data) {
-                const tr = document.createElement("tr");
-                tr.innerHTML = `<td>${data.name}</td><td>${data.date}</td><td>${data.time}</td>`;
-                tbody.appendChild(tr);
-            }
-        });
-}
+detectFace();
