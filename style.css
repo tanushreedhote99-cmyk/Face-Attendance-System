@@ -1,65 +1,8 @@
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f7f7f7;
-    text-align: center;
-    margin: 0;
-    padding: 0;
-}
-
-.container {
-    display: flex;
-    justify-content: space-around;
-    align-items: flex-start;
+#successBox {
     margin-top: 30px;
-    gap: 40px;
-    flex-wrap: wrap;
-}
-
-.camera-section, .attendance-section {
-    background: #fff;
     padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0px 5px 15px rgba(0,0,0,0.2);
-}
-
-.video-container {
-    width: 600px;
-    height: 450px;
-    overflow: hidden;
-    border-radius: 10px;
-    border: 2px solid #4CAF50;
-    margin-bottom: 15px;
-}
-
-#video-feed {
-    width: 100%;
-    height: auto;
-}
-
-.attendance-msg {
-    font-size: 18px;
-    font-weight: bold;
-    color: #4CAF50;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-}
-
-th, td {
-    padding: 10px;
-    border: 1px solid #ddd;
-}
-
-th {
-    background-color: #4CAF50;
-    color: white;
-    text-align: center;
-}
-
-td {
-    text-align: center;
-    font-size: 16px;
+    border: 3px solid green;
+    display: inline-block;
+    background: #eaffea;
+    font-size: 20px;
 }
