@@ -1,32 +1,18 @@
-const table = document.getElementById("table");
-
-function detectFace() {
-    fetch("/detect")
-        .then(res => res.json())
+function checkStatus() {
+    fetch('/status')
+        .then(response => response.json())
         .then(data => {
+            if (data.name) {
+                document.getElementById("videoFeed").src = "";
+                document.getElementById("cameraSection").style.display = "none";
+                document.getElementById("successBox").style.display = "block";
 
-            table.innerHTML = `
-            <tr>
-                <th>Name</th>
-                <th>Date</th>
-                <th>Time</th>
-            </tr>
-            `;
-
-            if (data.attendance) {
-                table.innerHTML += `
-                <tr>
-                    <td>${data.attendance.name}</td>
-                    <td>${data.attendance.date}</td>
-                    <td>${data.attendance.time}</td>
-                </tr>
-                `;
-            }
-
-            if (!data.stop) {
-                setTimeout(detectFace, 500);
+                document.getElementById("details").innerHTML =
+                    "Name: " + data.name +
+                    "<br>Date: " + data.date +
+                    "<br>Time: " + data.time;
             }
         });
 }
 
-detectFace();
+setInterval(checkStatus, 1000);
